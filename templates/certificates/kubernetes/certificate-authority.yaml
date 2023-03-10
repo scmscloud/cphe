@@ -1,0 +1,28 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubernetes-ca
+spec:
+  isCA: true
+  subject:
+    organizations:
+      - "Scaleship Cloud - Managed Kubernetes Services"
+      - "Kubernetes - Certificate Authority"
+  commonName: kubernetes-ca
+  secretName: kubernetes-ca
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: selfsigned
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: kubernetes-ca
+spec:
+  ca:
+    secretName: kubernetes-ca

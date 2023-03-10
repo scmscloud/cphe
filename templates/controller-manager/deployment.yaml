@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-controller-manager
+
+  labels:
+    app: controller-manager
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: controller-manager
+  template:
+    metadata:
+      labels:
+        app: controller-manager
+    spec:
+      containers:
+      - name: controller-manager
+        image: {{ .Values.ControllerManager.image }}
+        command:
+          - kube-controller-manager
+          - --bind-address=127.0.0.1
+          - --secure-port=6443
+          - --leader-elect=true
+          - --kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig.conf
+          - --cluster-name=kubernetes
+          - --controllers=*,bootstrapsigner,tokencleaner
+          - --authentication-kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig.conf
+          - --authorization-kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig.conf
+          - --client-ca-file=/var/lib/kubernetes/certificate-authority/ca.crt
+          - --cluster-signing-cert-file=/var/lib/kubernetes/certificate-authority/tls.crt
+          - --cluster-signing-key-file=/var/lib/kubernetes/certificate-authority/tls.key
+          - --requestheader-client-ca-file=/var/lib/kubernetes/front-proxy/ca.crt
+          - --allocate-node-cidrs=false
+          - --service-cluster-ip-range=10.2.0.0/12
+          - --cluster-cidr=10.18.0.0/12
+          - --root-ca-file=/var/lib/kubernetes/certificate-authority/ca.crt
+          - --service-account-private-key-file=/var/lib/kubernetes/service-account/tls.key
+          - --use-service-account-credentials=false
+        ports:
+        - containerPort: 6443
+        volumeMounts:
+        - name: certificate-authority
+          mountPath: /var/lib/kubernetes/certificate-authority
+          readOnly: true
+        - name: certificate-service-account
+          mountPath: /var/lib/kubernetes/service-account
+          readOnly: true
+        - name: certificate-proxy
+          mountPath: /var/lib/kubernetes/front-proxy
+          readOnly: true
+        - name: kubeconfig
+          mountPath: /var/lib/kubernetes/controller-manager
+          readOnly: true
+      volumes:
+      - name: certificate-authority
+        secret:
+          secretName: kubernetes-ca
+      - name: certificate-service-account
+        secret:
+          secretName: kube-service-accounts
+      - name: certificate-proxy
+        secret:
+          secretName: front-proxy-client
+      - name: kubeconfig
+        secret:
+          secretName: kube-controller-manager-kubeconfig

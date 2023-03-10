@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kube-apiserver-kubelet-client
+spec:
+  secretName: kube-apiserver-kubelet-client
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  commonName: system:masters
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - client auth
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: kubernetes-ca

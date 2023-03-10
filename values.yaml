@@ -1,0 +1,28 @@
+apiserver:
+  image: registry.sigma.fr/k8s-io/kube-apiserver:v1.26.0
+  ingress:
+    hostname: cp2n-36gx8a.mks.scaleship.io
+  oidc:
+    issuer: https://access.sigma.fr/sigma-oauth2/v1
+    algs: RS512
+    client: 93ebebd37a73360104d4cc283646000a49d8d901681ba65c
+    username: email
+    groups: groups
+    claim: "email=email"
+
+etcd:
+  image: quay.io/coreos/etcd:v3.5.7
+  storage:
+    className: netapp-storage-nas
+    size: 5Gi
+
+kubeconfig:
+  image: registry.sigma.fr/library/kubeception-kubeconfigs:v1.26.2
+
+ControllerManager:
+  image: registry.sigma.fr/k8s-io/kube-controller-manager:v1.26.0
+
+dashboard:
+  image: registry.sigma.fr/docker-io/kubernetesui/dashboard:v2.7.0
+  ingress:
+    hostname: dashboard.cp2n-36gx8a.mks.scaleship.io

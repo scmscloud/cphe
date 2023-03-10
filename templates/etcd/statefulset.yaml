@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kube-etcd
+spec:
+  serviceName: etcd
+  replicas: 3
+  selector:
+    matchLabels:
+      app: etcd
+  template:
+    metadata:
+      labels:
+        app: etcd
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: etcd
+          image: {{ .Values.etcd.image }}
+          env:
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          command:
+            - "etcd"
+          args:
+            - "--name=$(HOSTNAME)"
+            - "--listen-peer-urls=http://0.0.0.0:2380"
+            - "--listen-client-urls=http://0.0.0.0:2379"
+            - "--advertise-client-urls=http://$(HOSTNAME).etcd:2379"
+            - "--initial-advertise-peer-urls=http://$(HOSTNAME):2380"
+            - "--initial-cluster-token=etcd-cluster-1"
+            - "--initial-cluster=kube-etcd-0=http://kube-etcd-0.etcd:2380,kube-etcd-1=http://kube-etcd-1.etcd:2380,kube-etcd-2=http://kube-etcd-2.etcd:2380"
+            - "--initial-cluster-state=new"
+            - "--data-dir=/var/run/etcd/default.etcd"
+          ports:
+            - name: client
+              containerPort: 2379
+            - name: peer
+              containerPort: 2380
+          volumeMounts:
+            - name: data
+              mountPath: /var/run/etcd
+          livenessProbe:
+            initialDelaySeconds: 10
+            exec:
+              command:
+                - "etcdctl"
+                - "--endpoints=127.0.0.1:2379 endpoint health"
+            periodSeconds: 15
+            timeoutSeconds: 10
+          startupProbe:
+            initialDelaySeconds: 10
+            exec:
+              command:
+                - "etcdctl"
+                - "--endpoints=127.0.0.1:2379 endpoint health"
+            periodSeconds: 3
+            timeoutSeconds: 10
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: {{ .Values.etcd.storage.className }}
+        resources:
+          requests:
+            storage: {{ .Values.etcd.storage.size }}

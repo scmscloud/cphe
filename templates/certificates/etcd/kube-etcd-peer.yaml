@@ -1,0 +1,28 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kube-etcd-peer
+spec:
+  secretName: kube-etcd-peer
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  commonName: kube-etcd-peer
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  ipAddresses:
+    - 127.0.0.1
+  dnsNames:
+    - kube-etcd-0.etcd
+    - kube-etcd-1.etcd
+    - kube-etcd-2.etcd
+    - etcd-client.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: etcd-ca

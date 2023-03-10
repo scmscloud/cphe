@@ -1,0 +1,28 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: etcd-ca
+spec:
+  isCA: true
+  subject:
+    organizations:
+      - "Scaleship Cloud - Managed Kubernetes Services"
+      - "etcd - Certificate Authority"
+  commonName: etcd-ca
+  secretName: etcd-ca
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: selfsigned
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: etcd-ca
+spec:
+  ca:
+    secretName: etcd-ca
