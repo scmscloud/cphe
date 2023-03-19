@@ -1,15 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: kube-apiserver-kubelet-client
+  name: konnectivity
 spec:
-  secretName: kube-apiserver-kubelet-client
+  secretName: konnectivity
   duration: 2160h # 90d
   renewBefore: 360h # 15d
-  subject:
-    organizations:
-      - "system:masters"
-  commonName: cluster-admin
+  commonName: system:konnectivity-server
   isCA: false
   privateKey:
     algorithm: RSA

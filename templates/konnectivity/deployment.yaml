@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: konnectivity
+  labels:
+    app: konnectivity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: konnectivity
+  template:
+    metadata:
+      labels:
+        app: konnectivity
+    spec:
+      containers:
+      - name: konnectivity
+        image: {{ .Values.apiserver.konnectivity.image }}
+        command:
+          - "/proxy-server"
+        args:
+          - "--logtostderr=true"
+          - "--cluster-cert=/var/lib/kubernetes/konnectivity-certs/tls.crt"
+          - "--cluster-key=/var/lib/kubernetes/konnectivity-certs/tls.key"
+          - "--mode=http-connect"
+          - "--server-port=8131"
+          - "--server-ca-cert=/var/lib/kubernetes/konnectivity-certs/ca.crt"
+          - "--server-cert=/var/lib/kubernetes/konnectivity-certs/tls.crt"
+          - "--server-key=/var/lib/kubernetes/konnectivity-certs/tls.key"
+          - "--agent-port=8132"
+          - "--admin-port=8133"
+          - "--health-port=8134"
+          - "--agent-namespace=kube-system"
+          - "--agent-service-account=konnectivity-agent"
+          - "--kubeconfig=/var/lib/kubernetes/konnectivity/kubeconfig.conf"
+          - "--authentication-audience=system:konnectivity-server"
+        ports:
+          - name: server
+            containerPort: 8131
+          - name: agent
+            containerPort: 8132
+          - name: admin
+            containerPort: 8133
+          - name: health
+            containerPort: 8134
+        volumeMounts:
+          - name: konnectivity-kubeconfig
+            mountPath: /var/lib/kubernetes/konnectivity
+            readOnly: true
+          - name: certificate-apiserver
+            mountPath: /var/lib/kubernetes/konnectivity-certs
+            readOnly: true
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            port: 8134
+            path: /healthz
+          initialDelaySeconds: 30
+          timeoutSeconds: 60
+      volumes:
+      - name: certificate-apiserver
+        secret:
+          secretName: kube-apiserver
+      - name: konnectivity-kubeconfig
+        secret:
+          secretName: konnectivity-kubeconfig

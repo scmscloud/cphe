@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: konnectivity
+data:
+  egress-selector-configuration.yaml: |-
+    apiVersion: apiserver.k8s.io/v1beta1
+    kind: EgressSelectorConfiguration
+    egressSelections:
+    - name: cluster
+      connection:
+        proxyProtocol: HTTPConnect
+        transport:
+          tcp:
+            url: https://{{ .Values.apiserver.konnectivity.server.ingress.hostname }}:443
+            tlsConfig:
+              caBundle: /var/lib/kubernetes/apiserver/ca.crt
+              clientKey: /var/lib/kubernetes/apiserver/tls.key
+              clientCert: /var/lib/kubernetes/apiserver/tls.crt
