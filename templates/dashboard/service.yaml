@@ -5,9 +5,9 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: https
+  - name: oauth2-proxy
     protocol: TCP
-    port: 8443
-    targetPort: 8443
+    port: 4180
+    targetPort: 4180
   selector:
     app: kubernetes-dashboard

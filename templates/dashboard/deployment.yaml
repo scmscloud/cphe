@@ -15,22 +15,54 @@ spec:
         app: kubernetes-dashboard
     spec:
       containers:
-        - name: kubernetes-dashboard
-          image: {{ .Values.dashboard.image }}
-          ports:
-            - containerPort: 8443
+        - name: oauth2-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
           args:
-            - --bind-address=0.0.0.0
-            - --port=8443
-            - --default-cert-dir=/var/lib/kubernetes/certificates
-            - --tls-cert-file=tls.crt
-            - --tls-key-file=tls.key
-            - --kubeconfig=/var/lib/kubernetes/dashboard/kubeconfig.conf
-            - --metrics-provider=none
+            - '--https-address=0.0.0.0:4180'
+            - '--upstream=http://127.0.0.1:8080'
+            - '--proxy-websockets=true'
+            - --tls-cert-file=/var/lib/kubernetes/certificates/tls.crt
+            - --tls-key-file=/var/lib/kubernetes/certificates/tls.key
+            - '--provider=oidc'
+            - '--oidc-issuer-url={{ .Values.apiserver.oidc.issuer }}'
+            - '--redirect-url=http://{{ .Values.dashboard.ingress.hostname }}/oauth2/callback'
+            - '--insecure-oidc-allow-unverified-email'
+            - '--client-id={{ .Values.apiserver.oidc.client }}'
+            - '--client-secret={{ .Values.apiserver.oidc.secret }}'
+            - '--scope={{ .Values.apiserver.oidc.scope }}'
+            - '--set-authorization-header=true'
+            - '--cookie-refresh=1h'
+            - '--cookie-expire=24h'
+            - '--cookie-secure=true'
+            - '--cookie-secret=QV65BzOEqRTdwMfiBdEI247AX7ya6_x7C7upfjhI5bM='
+            - '--pass-access-token=true'
+            - '--email-domain=*'
+            - '--request-logging=false'
+            - '--auth-logging=true'
+            - '--standard-logging=true'
+            - '--skip-provider-button=true'
+            - '--footer=&copy Groupe Sigma - Managed Kubernetes Services'
+            - '--custom-sign-in-logo=https://access.sigma.fr/public/images/customization/part-svc-reverseproxy/accessprofile-prod-mut_auth_oidc_op_totp_general_ui/image02_en.png'
+          ports:
+            - containerPort: 4180
           volumeMounts:
             - name: certificates
               mountPath: /var/lib/kubernetes/certificates
               readOnly: true
+        - name: kubernetes-dashboard
+          image: {{ .Values.dashboard.image }}
+          args:
+            - --bind-address=127.0.0.1
+            - --insecure-bind-address=0.0.0.0
+            - --insecure-port=8080
+            - --default-cert-dir=/var/lib/kubernetes/certificates
+            #- --tls-cert-file=tls.crt
+            #- --tls-key-file=tls.key
+            - --kubeconfig=/var/lib/kubernetes/dashboard/kubeconfig.conf
+            - --metrics-provider=none
+          ports:
+            - containerPort: 8080
+          volumeMounts:
             - name: kubeconfig
               mountPath: /var/lib/kubernetes/dashboard
               readOnly: true
@@ -38,9 +70,9 @@ spec:
               name: tmp-volume
           livenessProbe:
             httpGet:
-              scheme: HTTPS
+              scheme: HTTP
               path: /
-              port: 8443
+              port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 30
       volumes:

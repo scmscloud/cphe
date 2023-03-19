@@ -59,14 +59,13 @@ spec:
           - --service-account-key-file=/var/lib/kubernetes/service-account/tls.crt
           - --service-account-signing-key-file=/var/lib/kubernetes/service-account/tls.key
 
-          - --oidc-issuer-url={{ .Values.apiserver.oidc.issuer }}
-          - --oidc-signing-algs={{ .Values.apiserver.oidc.algs }}
-          - --oidc-client-id={{ .Values.apiserver.oidc.client }}
-          - --oidc-username-claim={{ .Values.apiserver.oidc.username }}
-          - --oidc-username-prefix="oidc:"
-          - --oidc-groups-claim={{ .Values.apiserver.oidc.groups }}
-          - --oidc-groups-prefix="oidc:"
-          - --oidc-required-claim={{ .Values.apiserver.oidc.claim }}
+          - "--oidc-issuer-url={{ .Values.apiserver.oidc.issuer }}"
+          - "--oidc-signing-algs={{ .Values.apiserver.oidc.algs }}"
+          - "--oidc-client-id={{ .Values.apiserver.oidc.client }}"
+          - "--oidc-username-claim={{ .Values.apiserver.oidc.username.name }}"
+          - "--oidc-username-prefix={{ .Values.apiserver.oidc.username.prefix }}"
+          - "--oidc-groups-claim={{ .Values.apiserver.oidc.groups.name }}"
+          - "--oidc-groups-prefix={{ .Values.apiserver.oidc.groups.prefix }}"
         ports:
         - containerPort: 443
         volumeMounts:

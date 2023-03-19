@@ -9,7 +9,7 @@ spec:
     name: dashboard
     weight: 100
   port:
-    targetPort: https
+    targetPort: oauth2-proxy
   tls:
     termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
