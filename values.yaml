@@ -34,3 +34,4 @@ dashboard:
   version: v2.7.0
   ingress:
     hostname: dashboard.example-cluster.mks.scaleship.io
+    issuer: letsencrypt-staging
