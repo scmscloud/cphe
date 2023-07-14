@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: konnectivity
-        image: {{ .Values.apiserver.konnectivity.image }}
+        image: {{ .Values.registry }}/{{ .Values.repository }}/konnectivity:{{ .Values.version }}
         command:
           - "/proxy-server"
         args:

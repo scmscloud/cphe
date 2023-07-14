@@ -1,0 +1,18 @@
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: dashboard
+  annotations:
+    route.openshift.io/termination: "passthrough"
+spec:
+  rules:
+    - host: {{ .Values.dashboard.ingress.hostname }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dashboard
+                port:
+                  name: oauth2-proxy

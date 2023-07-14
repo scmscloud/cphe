@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: apiserver
-        image: {{ .Values.apiserver.image }}
+        image: {{ .Values.registry }}/{{ .Values.repository }}/kube-apiserver:{{ .Values.version }}
         command:
           - "kube-apiserver"
         args:

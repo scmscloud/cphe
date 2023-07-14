@@ -1,26 +1,33 @@
+registry: registry.sigma.fr
+repository: kubeception
+version: v1.26.0
+
 apiserver:
-  image: registry.k8s.io/kube-apiserver:v1.26.0
   ingress:
     hostname: example-cluster.mks.scaleship.io
   oidc:
     issuer: https://accounts.google.com
     algs: RS512
     client: example-client-key
-    username: email
-    groups: groups
-    claim: "key=value"
+    username:
+      name: email
+      prefix: oidc
+    groups:
+      name: groups
+      prefix: oidc
+  konnectivity:
+    agent:
+      ingress:
+        hostname: konnectivity-agent.example-cluster.mks.scaleship.io
+    server:
+      ingress:
+        hostname: konnectivity-server.example-cluster.mks.scaleship.io
 
 etcd:
   image: quay.io/coreos/etcd:v3.5.7
   storage:
     className: ""
     size: 5Gi
-
-kubeconfig:
-  image: registry.sigma.fr/library/kubeception-kubeconfigs:v1.26.2
-
-ControllerManager:
-  image: registry.k8s.io/kube-controller-manager:v1.26.0
 
 dashboard:
   image: kubernetesui/dashboard:v2.7.0
