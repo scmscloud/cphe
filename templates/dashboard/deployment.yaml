@@ -27,8 +27,8 @@ spec:
             - '--oidc-issuer-url={{ .Values.apiserver.oidc.issuer }}'
             - '--redirect-url=http://{{ .Values.dashboard.ingress.hostname }}/oauth2/callback'
             - '--insecure-oidc-allow-unverified-email'
-            - '--client-id={{ .Values.apiserver.oidc.client }}'
-            - '--client-secret={{ .Values.apiserver.oidc.secret }}'
+            - '--client-id=$(OIDC_CLIENT)'
+            - '--client-secret=$(OIDC_SERVER)'
             - '--scope={{ .Values.apiserver.oidc.scope }}'
             - '--set-authorization-header=true'
             - '--cookie-refresh=1h'
@@ -49,6 +49,17 @@ spec:
             - name: certificates
               mountPath: /var/lib/kubernetes/certificates
               readOnly: true
+          env:
+            - name: OIDC_CLIENT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.apiserver.oidc.secretName }}
+                  key: OIDC_CLIENT
+            - name: OIDC_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.apiserver.oidc.secretName }}
+                  key: OIDC_SECRET
         - name: kubernetes-dashboard
           image: {{ .Values.registry }}/{{ .Values.repository }}/dashboard:{{ .Values.dashboard.version }}
           args:

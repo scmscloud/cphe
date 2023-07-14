@@ -60,7 +60,7 @@ spec:
 
           - "--oidc-issuer-url={{ .Values.apiserver.oidc.issuer }}"
           - "--oidc-signing-algs={{ .Values.apiserver.oidc.algs }}"
-          - "--oidc-client-id={{ .Values.apiserver.oidc.client }}"
+          - "--oidc-client-id=$(OIDC_CLIENT)"
           - "--oidc-username-claim={{ .Values.apiserver.oidc.username.name }}"
           - "--oidc-username-prefix={{ .Values.apiserver.oidc.username.prefix }}"
           - "--oidc-groups-claim={{ .Values.apiserver.oidc.groups.name }}"
@@ -82,6 +82,12 @@ spec:
         - name: konnectivity-configuration
           mountPath: /var/lib/kubernetes/konnectivity-configuration
           readOnly: true
+        env:
+          - name: OIDC_CLIENT
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.apiserver.oidc.secretName }}
+                key: OIDC_CLIENT
         securityContext:
           allowPrivilegeEscalation: true
       volumes:
