@@ -25,7 +25,7 @@ apiserver:
         hostname: konnectivity-server.example-cluster.mks.scaleship.io
 
 etcd:
-  image: quay.io/coreos/etcd:v3.5.7
+  version: v3.5.7
   storage:
     className: ""
     size: 5Gi

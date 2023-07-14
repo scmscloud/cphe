@@ -16,7 +16,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: etcd
-          image: {{ .Values.etcd.image }}
+          image: {{ .Values.registry }}/{{ .Values.repository }}/etcd:{{ .Values.etcd.version }}
           env:
             - name: HOSTNAME
               valueFrom:
