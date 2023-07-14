@@ -25,7 +25,7 @@ spec:
             - --tls-key-file=/var/lib/kubernetes/certificates/tls.key
             - '--provider=oidc'
             - '--oidc-issuer-url={{ .Values.apiserver.oidc.issuer }}'
-            - '--redirect-url=http://{{ .Values.dashboard.ingress.hostname }}/oauth2/callback'
+            - '--redirect-url=https://{{ .Values.dashboard.ingress.hostname }}/oauth2/callback'
             - '--insecure-oidc-allow-unverified-email'
             - '--client-id=$(OIDC_CLIENT)'
             - '--client-secret=$(OIDC_SERVER)'
