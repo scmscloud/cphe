@@ -8,7 +8,6 @@ spec:
     spec:
       containers:
       - name: kubeconfigs
-        image: {{ .Values.kubeconfig.image }}
         image: {{ .Values.registry }}/{{ .Values.repository }}/kubeconfigs:{{ .Values.version }}
       restartPolicy: Never
       serviceAccountName: kubeconfigs-bootstraper

@@ -50,7 +50,7 @@ spec:
               mountPath: /var/lib/kubernetes/certificates
               readOnly: true
         - name: kubernetes-dashboard
-          image: {{ .Values.dashboard.image }}
+          image: {{ .Values.registry }}/{{ .Values.repository }}/dashboard:{{ .Values.dashboard.version }}
           args:
             - --bind-address=127.0.0.1
             - --insecure-bind-address=0.0.0.0

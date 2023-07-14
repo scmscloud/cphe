@@ -16,7 +16,7 @@ spec:
     spec:
         containers:
           - name: kube-scheduler
-            image: registry.sigma.fr/k8s-io/kube-scheduler:v1.26.0
+            image: {{ .Values.registry }}/{{ .Values.repository }}/kube-scheduler:{{ .Values.version }}
             command:
                 - kube-scheduler
             args:

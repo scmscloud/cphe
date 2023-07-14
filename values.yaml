@@ -9,6 +9,7 @@ apiserver:
     issuer: https://accounts.google.com
     algs: RS512
     client: example-client-key
+    secret: example-secret-key
     username:
       name: email
       prefix: oidc
@@ -16,6 +17,7 @@ apiserver:
       name: groups
       prefix: oidc
   konnectivity:
+    version: v0.0.37
     agent:
       ingress:
         hostname: konnectivity-agent.example-cluster.mks.scaleship.io
@@ -30,6 +32,6 @@ etcd:
     size: 5Gi
 
 dashboard:
-  image: kubernetesui/dashboard:v2.7.0
+  version: v2.7.0
   ingress:
     hostname: dashboard.example-cluster.mks.scaleship.io

@@ -18,8 +18,7 @@ spec:
       - name: apiserver
         image: {{ .Values.registry }}/{{ .Values.repository }}/kube-apiserver:{{ .Values.version }}
         command:
-          - "kube-apiserver"
-        args:
+          - kube-apiserver
           - --bind-address=0.0.0.0
           - --secure-port=443
           - --service-cluster-ip-range=10.2.0.0/12
@@ -83,6 +82,8 @@ spec:
         - name: konnectivity-configuration
           mountPath: /var/lib/kubernetes/konnectivity-configuration
           readOnly: true
+        securityContext:
+          allowPrivilegeEscalation: true
       volumes:
       - name: certificate-authority
         secret:
