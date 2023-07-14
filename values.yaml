@@ -6,7 +6,7 @@ apiserver:
   ingress:
     hostname: example-cluster.mks.scaleship.io
   oidc:
-    issuer: https://access-recette.sigma.fr/sigma-recette-oauth2/v1/.well-known/openid-configuration
+    issuer: https://access-recette.sigma.fr/sigma-recette-oauth2/v1
     algs: RS512
     secretName: oidc
     username:
