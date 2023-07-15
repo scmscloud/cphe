@@ -1,6 +1,5 @@
 registry: registry.sigma.fr
 repository: kubeception
-version: v1.26.0
 
 apiserver:
   ingress:

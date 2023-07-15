@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: controller-manager
-        image: {{ .Values.registry }}/{{ .Values.repository }}/kube-controller-manager:{{ .Values.version }}
+        image: {{ .Values.registry }}/{{ .Values.repository }}/kube-controller-manager:{{ .Chart.AppVersion }}
         command:
           - kube-controller-manager
           - --bind-address=127.0.0.1

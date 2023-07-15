@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: apiserver
-        image: {{ .Values.registry }}/{{ .Values.repository }}/kube-apiserver:{{ .Values.version }}
+        image: {{ .Values.registry }}/{{ .Values.repository }}/kube-apiserver:{{ .Chart.AppVersion }}
         command:
           - kube-apiserver
           - --bind-address=0.0.0.0

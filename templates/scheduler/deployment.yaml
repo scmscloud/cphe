@@ -16,7 +16,7 @@ spec:
     spec:
         containers:
           - name: kube-scheduler
-            image: {{ .Values.registry }}/{{ .Values.repository }}/kube-scheduler:{{ .Values.version }}
+            image: {{ .Values.registry }}/{{ .Values.repository }}/kube-scheduler:{{ .Chart.AppVersion }}
             command:
                 - kube-scheduler
             args:
