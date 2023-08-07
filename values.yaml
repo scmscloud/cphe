@@ -1,11 +1,22 @@
-registry: registry.sigma.fr
+registry: registry.scaleship.io
 repository: kubeception
 
 apiserver:
-  ingress:
-    hostname: example-cluster.mks.scaleship.io
+  advertise:
+    public:
+      ingress:
+        labels: []
+        annotations: []
+        className: ""
+        hostname: api.kube-9ni825sw.mks.scaleship.io
+    internal:
+      ingress:
+        labels: []
+        annotations: []
+        className: ""
+        hostname: kube-9ni825sw.mks.scaleship.io
   oidc:
-    issuer: https://access-recette.sigma.fr/sigma-recette-oauth2/v1
+    issuer: https://accounts.scaleship.io/oidc/v1
     algs: RS512
     secretName: oidc
     username:
@@ -18,10 +29,16 @@ apiserver:
     version: v0.0.37
     agent:
       ingress:
-        hostname: konnectivity-agent.example-cluster.mks.scaleship.io
+        labels: []
+        annotations: []
+        className: ""
+        hostname: konnectivity-agent.kube-9ni825sw.mks.scaleship.io
     server:
       ingress:
-        hostname: konnectivity-server.example-cluster.mks.scaleship.io
+        labels: []
+        annotations: []
+        className: ""
+        hostname: konnectivity-server.kube-9ni825sw.mks.scaleship.io
 
 etcd:
   version: v3.5.9
@@ -32,5 +49,8 @@ etcd:
 dashboard:
   version: v2.7.0
   ingress:
-    hostname: dashboard.example-cluster.mks.scaleship.io
+    labels: []
+    annotations: []
+    className: ""
+    hostname: dashboard.kube-9ni825sw.mks.scaleship.io
     issuer: letsencrypt-staging
