@@ -1,6 +1,8 @@
 # Control Plane Helm Edition (CPHE)
 All control-plane services running in a Helm chart.
 
+**UNDER DEVELOPMENT**
+
 [![GitLab CI](https://git.scms.ovh/kubernetes/control-plane-chart/badges/master/pipeline.svg)](https://git.scms.ovh/kubernetes/control-plane-chart/-/pipelines) [![GitLab Release](https://git.scms.ovh/kubernetes/control-plane-chart/-/badges/release.svg?order_by=release_at)](https://git.scms.ovh/kubernetes/control-plane-chart/-/releases)
 
 ## What's "Kubeception" concept?
