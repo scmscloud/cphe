@@ -23,7 +23,7 @@ spec:
           - --advertise-address=10.1.0.2
           - --secure-port=443
           - --service-cluster-ip-range=10.1.0.0/12
-          - --external-hostname={{ .Values.apiserver.ingress.hostname }}
+          - --external-hostname={{ .Values.apiserver.advertise.internal.ingress.hostname }}
           - --allow-privileged=true
           - --authorization-mode=Node,RBAC
 

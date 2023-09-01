@@ -8,7 +8,7 @@ metadata:
     route.openshift.io/termination: "passthrough"
 spec:
   rules:
-    - host: {{ .Values.apiserver.ingress.hostname }}
+    - host: {{ .Values.apiserver.advertise.internal.ingress.hostname }}
       http:
         paths:
           - path: ''

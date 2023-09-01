@@ -23,7 +23,8 @@ spec:
     - kubernetes.default.svc.cluster.local
     - {{ .Values.apiserver.konnectivity.agent.ingress.hostname }}
     - {{ .Values.apiserver.konnectivity.server.ingress.hostname }}
-    - {{ .Values.apiserver.ingress.hostname }}
+    - {{ .Values.apiserver.advertise.internal.ingress.hostname }}
+    - {{ .Values.apiserver.advertise.public.ingress.hostname }}
   issuerRef:
     group: cert-manager.io
     kind: Issuer
