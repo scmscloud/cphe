@@ -1,7 +1,7 @@
 kind: Ingress
 apiVersion: networking.k8s.io/v1
 metadata:
-  name: apiserver
+  name: apiserver-internal
   annotations:
     ingress.kubernetes.io/proxy-body-size: '0'
     ingress.kubernetes.io/ssl-redirect: 'true'
@@ -17,4 +17,4 @@ spec:
               service:
                 name: apiserver
                 port:
-                  number: 443 
+                  number: 443
