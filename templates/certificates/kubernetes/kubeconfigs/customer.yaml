@@ -4,6 +4,13 @@ metadata:
   name: cluster-administrator
 spec:
   secretName: cluster-administrator
+  secretTemplate:
+    annotations:
+      cluster.kubeception.io/uuid: "{{ .Values.identifier }}"
+      cluster.kubeception.io/address: "{{ .Values.apiserver.advertise.internal.ingress.hostname }}"
+    labels:
+      certificates.kubeception.io: "true"
+      certificates.kubeception.io/kubeconfigs: "certificate"
   duration: 24h
   renewBefore: 12h
   subject:

@@ -4,6 +4,13 @@ metadata:
   name: kube-controller-manager
 spec:
   secretName: kube-controller-manager
+  secretTemplate:
+    annotations:
+      cluster.kubeception.io/uuid: "{{ .Values.identifier }}"
+      cluster.kubeception.io/address: "{{ .Values.apiserver.advertise.internal.ingress.hostname }}"
+    labels:
+      certificates.kubeception.io: "true"
+      certificates.kubeception.io/kubeconfigs: "certificate"
   duration: 2160h # 90d
   renewBefore: 360h # 15d
   subject:
