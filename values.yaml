@@ -1,6 +1,8 @@
 registry: registry.scaleship.io
 repository: kubeception
 
+identifier: 7ac63c30-77f2-4e9f-bad9-22506463dcdd
+
 apiserver:
   advertise:
     public:
@@ -9,6 +11,7 @@ apiserver:
         annotations: []
         className: ""
         hostname: api.kube-9ni825sw.mks.scaleship.io
+        issuer: letsencrypt-staging
     internal:
       ingress:
         labels: []
