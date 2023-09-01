@@ -69,7 +69,7 @@ spec:
             - --default-cert-dir=/var/lib/kubernetes/certificates
             #- --tls-cert-file=tls.crt
             #- --tls-key-file=tls.key
-            - --kubeconfig=/var/lib/kubernetes/dashboard/kubeconfig.conf
+            - --kubeconfig=/var/lib/kubernetes/dashboard/kubeconfig
             - --metrics-provider=none
           ports:
             - containerPort: 8080

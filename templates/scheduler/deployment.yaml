@@ -22,9 +22,9 @@ spec:
             args:
                 - "--bind-address=0.0.0.0"
                 - "--leader-elect=true"
-                - "--authentication-kubeconfig=/etc/kubernetes/scheduler/kubeconfig.conf"
-                - "--authorization-kubeconfig=/etc/kubernetes/scheduler/kubeconfig.conf"
-                - "--kubeconfig=/etc/kubernetes/scheduler/kubeconfig.conf"
+                - "--authentication-kubeconfig=/etc/kubernetes/scheduler/kubeconfig"
+                - "--authorization-kubeconfig=/etc/kubernetes/scheduler/kubeconfig"
+                - "--kubeconfig=/etc/kubernetes/scheduler/kubeconfig"
                 - --requestheader-client-ca-file=/etc/kubernetes/kubernetes-ca/tls.crt
                 #- --requestheader-allowed-names=front-proxy-client
                 - --requestheader-extra-headers-prefix=X-Remote-Extra-

@@ -23,11 +23,11 @@ spec:
           - --bind-address=127.0.0.1
           - --secure-port=6443
           - --leader-elect=true
-          - --kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig.conf
+          - --kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig
           - --cluster-name=kubernetes
           - --controllers=*,bootstrapsigner,tokencleaner
-          - --authentication-kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig.conf
-          - --authorization-kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig.conf
+          - --authentication-kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig
+          - --authorization-kubeconfig=/var/lib/kubernetes/controller-manager/kubeconfig
           - --client-ca-file=/var/lib/kubernetes/certificate-authority/ca.crt
           - --cluster-signing-cert-file=/var/lib/kubernetes/certificate-authority/tls.crt
           - --cluster-signing-key-file=/var/lib/kubernetes/certificate-authority/tls.key

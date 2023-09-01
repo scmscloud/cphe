@@ -33,7 +33,7 @@ spec:
           - "--health-port=8134"
           - "--agent-namespace=kube-system"
           - "--agent-service-account=konnectivity-agent"
-          - "--kubeconfig=/var/lib/kubernetes/konnectivity/kubeconfig.conf"
+          - "--kubeconfig=/var/lib/kubernetes/konnectivity/kubeconfig"
           - "--authentication-audience=system:konnectivity-server"
         ports:
           - name: server
