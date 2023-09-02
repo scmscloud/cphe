@@ -20,8 +20,11 @@ done
 VERSIONS=("v0.0.37");
 for VERSION in ${VERSIONS[@]}; do
 	podman pull "${REMOTE}/kas-network-proxy/proxy-server:${VERSION}"
-	podman tag "${REMOTE}/kas-network-proxy/proxy-server:${VERSION}" "${MIRROR}/konnectivity:${VERSION}"
-	podman push "${MIRROR}/konnectivity:${VERSION}"
+	podman pull "${REMOTE}/kas-network-proxy/proxy-agent:${VERSION}"
+	podman tag "${REMOTE}/kas-network-proxy/proxy-server:${VERSION}" "${MIRROR}/konnectivity-server:${VERSION}"
+	podman tag "${REMOTE}/kas-network-proxy/proxy-agent:${VERSION}" "${MIRROR}/konnectivity-agent:${VERSION}"
+	podman push "${MIRROR}/konnectivity-server:${VERSION}"
+	podman push "${MIRROR}/konnectivity-agent:${VERSION}"
 done
 
 ### External Kubernetes services
