@@ -20,7 +20,7 @@ spec:
         command:
           - kube-apiserver
           - --bind-address=0.0.0.0
-          - --advertise-address=10.1.0.2
+          - --advertise-address=10.0.0.2
           - --secure-port=443
           - --service-cluster-ip-range=10.1.0.0/12
           - --external-hostname={{ .Values.apiserver.advertise.internal.ingress.hostname }}
